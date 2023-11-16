@@ -1,0 +1,10 @@
+<div class = 'container'>
+<h1> 🍿 Get your popcorn 🍿 </h1>
+<h3> 🎬 Dive into your Watchlists 🎬 </h3>
+<ul>
+  <% @lists.each do |list| %>
+    <li><%= link_to list.name, list_path(list) %></li>
+  <% end %>
+<button type="button" class="btn btn-tertiary"><%= link_to "Add new list", new_list_path %></button>
+</ul>
+</div>
