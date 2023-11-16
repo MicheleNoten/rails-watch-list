@@ -1,0 +1,8 @@
+.card-movie {
+  width: 300px; /* Set a minimum width for the card */
+  height: 400px; /* Set a minimum height for the card */
+  overflow: hidden; /* Hide overflowing content */
+  background: white; /* Set the card background color */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  margin: 10px;
+}
