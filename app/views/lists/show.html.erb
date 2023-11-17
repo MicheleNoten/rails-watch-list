@@ -7,29 +7,41 @@
 
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
       <div class="container-fluid">
-      <ul class="nav-item "><%= link_to "Add a movie", new_list_bookmark_path(@list) %> </ul>|
-      <ul class="nav-item"><%= link_to "Add a new list", new_list_path(@list) %></ul> |
-      <ul class="nav-item"><%= link_to "Back to lists", lists_path %></ul> |
+      <ul class="nav-item"><%= link_to "Add a movie", new_list_bookmark_path(@list) %> </ul>
+      <ul class="nav-item"><%= link_to "Add a new list", new_list_path(@list) %></ul>
+      <ul class="nav-item"><%= link_to "Back to lists", lists_path %></ul>
       <ul class="nav-item"><%= link_to "Delete list", list_path(@list),
       data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %></ul>
     </div>
 </div>
 
+    <%# <a class="btn btn-ghost" href="<%=list_path(list)%>
+
 <div class="row">
 <div class="side">
   <h3> Add your review </h3>
+  <% if @list.reviews.empty? %>
+  <small><em class="text-muted"> Be the first to review </em></small>
+  <% end %>
+  <% @list.reviews.each do |review| %>
+    <div>
+      <% review.rating.times do %>
+      <i class="fas fa-star star-yellow"></i>
+      <% end %>
+      <p class="mb-0"><%= review.content %></p>
+    </div>
+  <% end %>
   <%= simple_form_for([@list, @review]) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :content, placeholder: "Add your review here..." %>
+    <%= f.input :content, placeholder: "Add your review here...", label: false %>
     <%= f.input :rating, as: :select, collection: (1..5), required: true, label: false, input_html: { data: { controller: "star-rating" } } %>
-    <%= f.submit class: "btn btn-flat mt-2" %>
-  </div>
+    </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Submit" %>
+    <%= f.button :submit, "Submit", class: "btn btn-ghost" %>
   </div>
   <% end %>
 </div>
