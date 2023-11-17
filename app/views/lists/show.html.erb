@@ -1,64 +1,54 @@
-<div class="list-banner" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(https://miro.medium.com/v2/resize:fit:2000/format:webp/1*QIGSyZy_l3H-vJ61xvLTbQ.jpeg">
+<div class="list-banner" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(https://miro.medium.com/v2/resize:fit:2000/format:webp/1*QIGSyZy_l3H-vJ61xvLTbQ.jpeg)">
   <h2>
   <%= @list.name%>
   </h2>
 </div>
 
-<ul class="list-group">
-    <% @list.bookmarks.each do |bookmark| %>
-    <li class="list-group-item">
-    <%= bookmark.movie.title %>
-    <%= bookmark.movie.rating %>
-    <%= bookmark.movie.overview %>
-    <%= bookmark.movie.poster_url %>
-    <%= bookmark.comment%>
-    <%= link_to 'Delete', bookmark_path(bookmark),
+
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+      <div class="container-fluid">
+      <ul class="nav-item "><%= link_to "Add a movie", new_list_bookmark_path(@list) %> </ul>|
+      <ul class="nav-item"><%= link_to "Add a new list", new_list_path(@list) %></ul> |
+      <ul class="nav-item"><%= link_to "Back to lists", lists_path %></ul> |
+      <ul class="nav-item"><%= link_to "Delete list", list_path(@list),
+      data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %></ul>
+    </div>
+</div>
+
+<div class="row">
+<div class="side">
+  <h3> Add your review </h3>
+  <%= simple_form_for([@list, @review]) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :content, placeholder: "Add your review here..." %>
+    <%= f.input :rating, as: :select, collection: (1..5), required: true, label: false, input_html: { data: { controller: "star-rating" } } %>
+    <%= f.submit class: "btn btn-flat mt-2" %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Submit" %>
+  </div>
+  <% end %>
+</div>
+
+<div class="main">
+  <% @list.bookmarks.each do |bookmark| %>
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="<%= bookmark.movie.poster_url %>" alt="Card image cap">
+    <div class="card-body">
+    <h5 class="card-title"><%= bookmark.movie.title %> - <%= bookmark.movie.rating %></h5>
+    <p class="card-text"><%= bookmark.movie.overview %></p>
+    </div>
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item">"<%= bookmark.comment%>"</li>
+    <ul> <%= link_to 'Delete', bookmark_path(bookmark),
     data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
     <% end %>
-    </li>
+    </ul>
+    </ul>
 </div>
-
-<hr class="solid">
-
-<div class = 'container'>
-  <h2> Add a movie (bookmark) </h2>
-  <%= simple_form_for([@list, @bookmark]) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.association :movie %>
-    <%= f.input :comment %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Submit" %>
-  </div>
-  <% end %>
 </div>
-
-<hr class="solid">
-
-<div class = 'container'>
-  <h3> Add your review </h3>
-  <%= simple_form_for([@list, @bookmark]) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :comment %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Submit" %>
-  </div>
-  <% end %>
 </div>
-
-<div>
-  <%= link_to "Add a movie", new_list_bookmark_path(@list) %> |
-  <%= link_to "Add a new list", new_list_path(@list) %> |
-  <%= link_to "Back to lists", lists_path %>
-</div>
-
-<div>
