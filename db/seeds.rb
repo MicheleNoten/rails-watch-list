@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'json'
 
+# List.destroy_all
 Movie.destroy_all
 
 movies_url = "https://tmdb.lewagon.com/movie/top_rated"
@@ -13,5 +14,10 @@ movies.each do |movie|
     overview: movie['overview'],
     rating: movie['vote_average'],
     poster_url: "https://image.tmdb.org/t/p/w500#{movie['poster_path']}"
+  )
+
+lists.each do |list|
+  List.create(
+
   )
 end
