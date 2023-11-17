@@ -13,5 +13,7 @@
   flex: 70%;
   background-color: white;
   padding: 20px;
+  grid-template-columns: 1fr 1fr 1fr;;
+  display: grid;
+  grid-gap: 12px;
 }
-
